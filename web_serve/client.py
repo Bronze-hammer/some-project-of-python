@@ -1,10 +1,12 @@
 
 import socket
 
-listen_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-HOST = socket.gethostname()
-PORT = 8888
+#listen_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s = socket.socket()
 
-listen_socket.connect((HOST, PORT))
-print(listen_socket.recv(1024))
-listen_socket.close()
+host = socket.gethostname()
+port = 1234
+
+s.connect((host, port))
+
+print(s.recv(1024))
