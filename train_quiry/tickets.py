@@ -34,7 +34,7 @@ def cli():
         date, from_station, to_station
     )
     # 添加verify=False参数不验证证书
-    r = requests.get(url, verify=False)
+    r = requests.get(url, verify=False);
     print(r.json())
 
 if __name__ == '__main__':
