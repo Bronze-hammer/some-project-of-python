@@ -51,8 +51,7 @@ class TrainsCollection:
             traininfo_list = raw_train.split('|')
             train_no = traininfo_list[3]
             initial = train_no[0].lower
-            # if not self.options or initial in self.options:
-            if not self.options:
+            if not self.options or initial in self.options:
                 train = [
                     train_no,
                     '\n'.join([Fore.GREEN + traininfo_list[4] + Fore.RESET,
