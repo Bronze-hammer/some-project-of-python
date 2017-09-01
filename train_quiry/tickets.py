@@ -1,4 +1,3 @@
-
 """命令行火车票查看器
 
 Usage:
@@ -22,12 +21,14 @@ from stations import stations
 from colorama import init, Fore
 import requests
 import urllib3
+
 urllib3.disable_warnings()
 
 
 class TrainsCollection:
     header = '车次 车站 时间 历时 一等 二等 软卧 硬卧 硬座 无座'.split()
-    def __init__(self, available_trains, options):
+
+    def __init__(self, available_trains, options, map_trains):
         """查询到的火车班次集合
 
         :param available_trains: 一个列表, 包含可获得的火车班次, 每个
@@ -36,10 +37,11 @@ class TrainsCollection:
         """
         self.available_trains = available_trains
         self.options = options
+        self.map_trains = map_trains
 
     def _get_duration(self, traininfo_list):
         duration = traininfo_list[10].replace(':', '小时') + '分'
-        if duration.startswith('00'):  #判断字符串duration以00开头
+        if duration.startswith('00'):  # 判断字符串duration以00开头
             return duration[4:]
         if duration.startswith('0'):
             return duration[1:]
@@ -54,17 +56,17 @@ class TrainsCollection:
             if not self.options or initial in self.options:
                 train = [
                     train_no,
-                    '\n'.join([Fore.GREEN + traininfo_list[4] + Fore.RESET,
-                               Fore.RED + traininfo_list[5] + Fore.RESET]),
+                    '\n'.join([Fore.GREEN + self.map_trains[traininfo_list[4]] + Fore.RESET,
+                               Fore.RED + self.map_trains[traininfo_list[7]] + Fore.RESET]),
                     '\n'.join([Fore.GREEN + traininfo_list[8] + Fore.RESET,
                                Fore.RED + traininfo_list[9] + Fore.RESET]),
                     self._get_duration(traininfo_list),
-                    traininfo_list[31],  #一等座
-                    traininfo_list[30],  #二等座
-                    traininfo_list[23],  #软卧
-                    traininfo_list[28],  #硬卧
-                    traininfo_list[29],  #硬座
-                    traininfo_list[26],  #无座
+                    traininfo_list[31],  # 一等座
+                    traininfo_list[30],  # 二等座
+                    traininfo_list[23],  # 软卧
+                    traininfo_list[28],  # 硬卧
+                    traininfo_list[29],  # 硬座
+                    traininfo_list[26],  # 无座
                 ]
                 yield train
 
@@ -75,13 +77,14 @@ class TrainsCollection:
             pt.add_row(train)
         print(pt)
 
+
 def cli():
     """command-line interface"""
     arguments = docopt(__doc__)
     from_station = stations.get(arguments['<from>'])
     to_station = stations.get(arguments['<to>'])
     date = arguments['<date>']
-    
+
     # 构建URL
     url = 'https://kyfw.12306.cn/otn/leftTicket/query?leftTicketDTO.train_date={}&leftTicketDTO.from_station={}&leftTicketDTO.to_station={}&purpose_codes=ADULT'.format(
         date, from_station, to_station
@@ -93,12 +96,12 @@ def cli():
     r = requests.get(url, verify=False)
     # r.encoding = "gbk"
     available_trains = r.json()['data']['result']
-    TrainsCollection(available_trains, options).pretty_print()
-
+    map_trains = r.json()['data']['map']
+    TrainsCollection(available_trains, options, map_trains).pretty_print()
 
 
 if __name__ == '__main__':
     cli()
 
-    
-    
+
+
