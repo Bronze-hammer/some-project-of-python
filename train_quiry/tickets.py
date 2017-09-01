@@ -50,7 +50,7 @@ class TrainsCollection:
         for raw_train in self.available_trains:
             traininfo_list = raw_train.split('|')
             train_no = traininfo_list[3]
-            initial = train_no[0].lower
+            initial = train_no[0].lower()
             if not self.options or initial in self.options:
                 train = [
                     train_no,
