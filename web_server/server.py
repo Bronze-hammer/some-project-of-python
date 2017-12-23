@@ -3,6 +3,7 @@ import socket
 import sys
 
 # 创建 socket 对象
+# 服务器端 套接字 对象
 serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 # 获取本地主机名
@@ -11,7 +12,7 @@ host = socket.gethostname()
 port = 9999
 
 # setsockopt(level, optname, value)  设置给定套接字选项的值
-#listen_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+# listen_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
 # 绑定端口
 # bind() 绑定地址（host,port）到套接字， 在AF_INET下,以元组（host,port）的形式表示地址。
