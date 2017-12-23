@@ -95,7 +95,7 @@ def movie_list(url):
 # 将内容保存到csv文件中
 def save_data():
     headers = ['排名', '名字', '导演', '主演', '年份', '地区', '评分', '简介']
-    # with open('/Users/mocokoo/Documents/py_file/douban_movie_top250.csv', encoding='UTF-8', mode='w') as f:
+    # with open('/Users/用户名/Documents/py_file/douban_movie_top250.csv', encoding='UTF-8', mode='w') as f:
     with open('douban_movie_top250.csv', encoding='UTF-8', mode='w') as f:
         f_csv = csv.writer(f)
         f_csv.writerow(headers)
