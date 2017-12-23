@@ -3,6 +3,7 @@ import socket
 import sys
 
 # 创建 socket 对象
+# 客户端 套接字 对象
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 # 获取本地主机名
